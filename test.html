@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+    <h1>HELLO!</h1>
+    <script>
+        window.onload = function() {
+            var socket = new WebSocket('ws://198.211.127.128:23476/monitor');
+            socket.onopen = function () {
+                alert("Соединение установлено.");
+            };
+
+            socket.onclose = function (event) {
+                if (event.wasClean) {
+                    alert('Соединение закрыто чисто');
+                } else {
+                    alert('Обрыв соединения'); // например, "убит" процесс сервера
+                }
+                alert('Код: ' + event.code + ' причина: ' + event.reason);
+            };
+
+            socket.onmessage = function (event) {
+                console.log(event.data);
+//                alert("Получены данные " + event.data);
+            };
+
+            socket.onerror = function (error) {
+                alert("Ошибка " + error.message);
+            };
+        }
+    </script>
+</body>
+</html>
